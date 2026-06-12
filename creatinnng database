@@ -1,0 +1,92 @@
+-- ============================================
+--  HOME TUITION SERVICE MANAGEMENT SYSTEM
+--  SQL Server Database Schema
+-- ============================================
+
+-- Create Database
+CREATE DATABASE HomeTuitionDB;
+GO
+
+USE HomeTuitionDB;
+GO
+
+-- ============================================
+-- TABLE: Students
+-- ============================================
+CREATE TABLE Students (
+    StudentID     INT IDENTITY(1,1) PRIMARY KEY,
+    FullName      NVARCHAR(100)  NOT NULL,
+    FatherName    NVARCHAR(100),
+    ContactNumber NVARCHAR(15)   NOT NULL,
+    EmergencyContact NVARCHAR(15),
+    Email         NVARCHAR(150)  NOT NULL UNIQUE,
+    PasswordHash  NVARCHAR(255)  NOT NULL,
+    Address       NVARCHAR(255),
+    Class         NVARCHAR(10)   NOT NULL,     -- '9th', '10th', '11th', '12th'
+    GroupName     NVARCHAR(50),                -- 'Pre Medical', 'Pre Engineering', 'Computer Science' (for 11th/12th)
+    Subjects      NVARCHAR(500),               -- Comma-separated subject list
+    SubjectCount  INT DEFAULT 1,               -- For 11th/12th fee calculation
+    CreatedAt     DATETIME DEFAULT GETDATE(),
+    IsActive      BIT DEFAULT 1
+);
+GO
+
+-- ============================================
+-- TABLE: Fees
+-- ============================================
+CREATE TABLE Fees (
+    FeeID         INT IDENTITY(1,1) PRIMARY KEY,
+    StudentID     INT NOT NULL FOREIGN KEY REFERENCES Students(StudentID),
+    FeeMonth      NVARCHAR(20),                -- e.g. 'June 2026'
+    AmountDue     DECIMAL(10,2) NOT NULL,
+    AmountPaid    DECIMAL(10,2) DEFAULT 0,
+    PaymentDate   DATE,
+    PaymentProof  NVARCHAR(500),               -- file path or filename
+    Status        NVARCHAR(20) DEFAULT 'Pending', -- 'Pending', 'Paid', 'Partial'
+    CreatedAt     DATETIME DEFAULT GETDATE()
+);
+GO
+
+-- ============================================
+-- TABLE: Admins (for future admin panel)
+-- ============================================
+CREATE TABLE Admins (
+    AdminID       INT IDENTITY(1,1) PRIMARY KEY,
+    Username      NVARCHAR(50)  NOT NULL UNIQUE,
+    PasswordHash  NVARCHAR(255) NOT NULL,
+    Email         NVARCHAR(150),
+    CreatedAt     DATETIME DEFAULT GETDATE()
+);
+GO
+
+-- ============================================
+-- INDEXES for performance
+-- ============================================
+CREATE INDEX IX_Students_Email   ON Students(Email);
+CREATE INDEX IX_Students_Class   ON Students(Class);
+CREATE INDEX IX_Fees_StudentID   ON Fees(StudentID);
+CREATE INDEX IX_Fees_Status      ON Fees(Status);
+GO
+
+-- ============================================
+-- SAMPLE DATA (optional for testing)
+-- ============================================
+INSERT INTO Students (FullName, FatherName, ContactNumber, Email, PasswordHash, Address, Class, Subjects)
+VALUES (
+    'Ali Hassan',
+    'Tariq Hassan',
+    '03001234567',
+    'ali@example.com',
+    '$2b$10$examplehashedpassword',    -- bcrypt hash placeholder
+    'Street 5, Rawalpindi',
+    '9th',
+    'Mathematics,Physics,Chemistry,Biology,English'
+);
+GO
+
+-- View all students
+-- SELECT * FROM Students;
+
+-- View fees with student name
+-- SELECT s.FullName, f.FeeMonth, f.AmountDue, f.AmountPaid, f.Status
+-- FROM Fees f JOIN Students s ON f.StudentID = s.StudentID;
