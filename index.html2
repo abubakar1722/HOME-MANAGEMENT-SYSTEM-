@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Login – Home Tuition</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+
+    :root {
+      --navy: #0f2057;
+      --blue: #1e3a8a;
+      --accent: #f59e0b;
+      --accent-hover: #d97706;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      background:
+        linear-gradient(135deg, rgba(15,32,87,0.93) 0%, rgba(30,58,138,0.85) 100%),
+        url("https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=80");
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 20px;
+    }
+
+    .back-link {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: white; }
+
+    .card {
+      background: white;
+      padding: 44px 42px;
+      border-radius: 18px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+      width: 100%;
+      max-width: 420px;
+      animation: slideUp 0.5s ease forwards;
+    }
+
+    .card-logo {
+      text-align: center;
+      font-size: 36px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 7px;
+      letter-spacing: 0.3px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      color: #1e293b;
+    }
+
+    input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(30,58,138,0.1);
+    }
+
+    .error-msg {
+      color: #dc2626;
+      font-size: 13px;
+      margin-top: 6px;
+      display: none;
+    }
+
+    button[type="button"] {
+      width: 100%;
+      padding: 14px;
+      background: var(--navy);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: all 0.2s;
+    }
+
+    button[type="button"]:hover {
+      background: var(--blue);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(15,32,87,0.3);
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 22px 0;
+      color: #94a3b8;
+      font-size: 13px;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+
+    .register-link {
+      text-align: center;
+      font-size: 14px;
+      color: #64748b;
+    }
+
+    .register-link a {
+      color: var(--blue);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .register-link a:hover { text-decoration: underline; }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="back-link">← Back to Home</a>
+
+  <div class="card">
+    <div class="card-logo">📘</div>
+    <h1>Welcome Back</h1>
+    <p class="subtitle">Sign in to your student account</p>
+
+    <div class="field">
+      <label for="loginName">Username</label>
+      <input type="text" id="loginName" placeholder="Enter your username">
+      <div class="error-msg" id="nameErr">Please enter your username.</div>
+    </div>
+
+    <div class="field">
+      <label for="loginPassword">Password</label>
+      <input type="password" id="loginPassword" placeholder="Enter your password">
+      <div class="error-msg" id="passErr">Please enter your password.</div>
+    </div>
+
+    <button type="button" onclick="login()">Login</button>
+
+    <div class="divider">or</div>
+
+    <div class="register-link">
+      Don't have an account? <a href="registration.html">Register here</a>
+    </div>
+  </div>
+
+  <script>
+    function login() {
+      const storedName = localStorage.getItem("username");
+      const storedPass = localStorage.getItem("password");
+
+      const enteredName = document.getElementById("loginName").value.trim();
+      const enteredPass = document.getElementById("loginPassword").value;
+
+      const nameErr = document.getElementById("nameErr");
+      const passErr = document.getElementById("passErr");
+
+      // Reset errors
+      nameErr.style.display = "none";
+      passErr.style.display = "none";
+
+      let valid = true;
+
+      if (!enteredName) {
+        nameErr.style.display = "block";
+        valid = false;
+      }
+
+      if (!enteredPass) {
+        passErr.style.display = "block";
+        valid = false;
+      }
+
+      if (!valid) return;
+
+      if (enteredName === storedName && enteredPass === storedPass) {
+        alert("Login Successful! Welcome, " + enteredName + "!");
+        window.location.href = "index.html";
+      } else {
+        alert("Invalid Username or Password. Please try again.");
+      }
+    }
+
+    // Allow Enter key to submit
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") login();
+    });
+  </script>
+
+</body>
+</html>
