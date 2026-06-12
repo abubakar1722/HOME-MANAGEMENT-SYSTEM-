@@ -1,0 +1,10 @@
+-- ============================================================
+--  STEP 1: Delete old database & create fresh one
+--  Run this FIRST before anything else
+-- ============================================================
+
+DROP DATABASE IF EXISTS HomeTuitionDB;
+
+CREATE DATABASE HomeTuitionDB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+USE HomeTuitionDB;
