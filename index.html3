@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Registration – Home Tuition</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+
+    :root {
+      --navy: #0f2057;
+      --blue: #1e3a8a;
+      --teal: #0891b2;
+      --teal-light: #e0f2fe;
+      --teal-hover: #0e7490;
+      --accent: #f59e0b;
+      --success: #16a34a;
+      --error: #dc2626;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #f1f5f9;
+      min-height: 100vh;
+      padding: 30px 20px 60px;
+      color: #1e293b;
+    }
+
+    /* ===== TOP NAV ===== */
+    .top-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 820px;
+      margin: 0 auto 28px;
+    }
+
+    .back-link {
+      color: #475569;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--navy); }
+
+    .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* ===== CARD ===== */
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      background: white;
+      padding: 44px 48px;
+      border-radius: 20px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.09);
+      animation: slideUp 0.5s ease forwards;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .page-header .badge {
+      display: inline-block;
+      background: var(--teal-light);
+      color: var(--teal);
+      padding: 5px 16px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    /* ===== FORM SECTIONS ===== */
+    .form-section {
+      margin-bottom: 32px;
+    }
+
+    .form-section-title {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--teal);
+      border-bottom: 2px solid var(--teal-light);
+      padding-bottom: 8px;
+      margin-bottom: 20px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 7px;
+    }
+
+    input, select {
+      padding: 13px 16px;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      color: #1e293b;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background: white;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(8,145,178,0.1);
+    }
+
+    .error {
+      color: var(--error);
+      font-size: 12px;
+      margin-top: 5px;
+      min-height: 18px;
+      font-weight: 500;
+    }
+
+    /* ===== SUBJECTS BOX ===== */
+    #subjects {
+      margin-top: 10px;
+    }
+
+    .subjects-box {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-top: 8px;
+    }
+
+    .subjects-box h3 {
+      font-size: 15px;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .subjects-box ul {
+      padding-left: 22px;
+    }
+
+    .subjects-box li {
+      padding: 5px 0;
+      color: #334155;
+      font-size: 15px;
+    }
+
+    .subjects-box p {
+      margin-top: 14px;
+      font-weight: 600;
+      color: var(--teal);
+      font-size: 15px;
+    }
+
+    .subjects-box select {
+      margin-top: 8px;
+    }
+
+    #groupSubjects { margin-top: 10px; }
+
+    /* ===== FEE BOX ===== */
+    .fee-section {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 1.5px solid #bae6fd;
+      border-radius: 14px;
+      padding: 24px;
+      margin-top: 8px;
+    }
+
+    .fee-section h3 {
+      font-size: 15px;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .fee-btns {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-fee {
+      padding: 11px 24px;
+      background: var(--teal);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.2s;
+    }
+
+    .btn-fee:hover {
+      background: var(--teal-hover);
+      transform: translateY(-1px);
+    }
+
+    #feeArea {
+      margin-top: 18px;
+    }
+
+    #feeArea h3 {
+      color: var(--success);
+      font-size: 17px;
+    }
+
+    #feeArea input[type="number"] {
+      width: 100%;
+      max-width: 300px;
+      margin-bottom: 10px;
+    }
+
+    #feeArea input[type="file"] {
+      margin-top: 8px;
+    }
+
+    #total {
+      margin-top: 10px;
+      font-weight: 700;
+      color: var(--success);
+      font-size: 17px;
+    }
+
+    /* ===== SUBMIT ===== */
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      background: var(--navy);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.2s;
+      letter-spacing: 0.3px;
+    }
+
+    .submit-btn:hover {
+      background: var(--blue);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(15,32,87,0.25);
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #64748b;
+    }
+
+    .login-link a {
+      color: var(--teal);
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .login-link a:hover { text-decoration: underline; }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 640px) {
+      .container { padding: 28px 22px; }
+      .form-row { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-nav">
+    <a href="index.html" class="back-link">← Back to Home</a>
+    <div class="brand">📘 Home Tuition</div>
+  </div>
+
+  <div class="container">
+    <div class="page-header">
+      <div class="badge">Enroll Now</div>
+      <h1>Student Registration</h1>
+    </div>
+
+    <form id="regForm">
+
+      <!-- Personal Info -->
+      <div class="form-section">
+        <div class="form-section-title">Personal Information</div>
+        <div class="form-row">
+          <div class="field">
+            <label for="name">Student Name *</label>
+            <input type="text" id="name" placeholder="Full name">
+            <div class="error" id="nameError"></div>
+          </div>
+          <div class="field">
+            <label for="fatherName">Father's Name</label>
+            <input type="text" id="fatherName" placeholder="Father's full name">
+          </div>
+          <div class="field">
+            <label for="contact">Contact Number *</label>
+            <input type="tel" id="contact" placeholder="03XX-XXXXXXX" maxlength="11">
+            <div class="error" id="contactError"></div>
+          </div>
+          <div class="field">
+            <label for="emergency">Emergency Contact</label>
+            <input type="tel" id="emergency" placeholder="03XX-XXXXXXX" maxlength="11">
+          </div>
+          <div class="field">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" placeholder="example@email.com">
+            <div class="error" id="emailError"></div>
+          </div>
+          <div class="field">
+            <label for="password">Password *</label>
+            <input type="password" id="password" placeholder="Min 6 chars + 1 special character">
+            <div class="error" id="passError"></div>
+          </div>
+          <div class="field full">
+            <label for="address">Address</label>
+            <input type="text" id="address" placeholder="Street, City">
+          </div>
+        </div>
+      </div>
+
+      <!-- Class & Subjects -->
+      <div class="form-section">
+        <div class="form-section-title">Class & Subjects</div>
+        <div class="field">
+          <label for="classSelect">Select Class *</label>
+          <select id="classSelect">
+            <option value="">-- Choose Your Class --</option>
+            <option value="9th">9th</option>
+            <option value="10th">10th</option>
+            <option value="11th">11th</option>
+            <option value="12th">12th</option>
+          </select>
+        </div>
+        <div id="subjects"></div>
+      </div>
+
+      <!-- Fee Submission -->
+      <div class="form-section">
+        <div class="form-section-title">Fee Submission</div>
+        <div class="fee-section">
+          <h3>Select your class level to view fee details:</h3>
+          <div class="fee-btns">
+            <button type="button" class="btn-fee" onclick="showFee9()">9th / 10th Class</button>
+            <button type="button" class="btn-fee" onclick="showFee11()">11th / 12th Class</button>
+          </div>
+          <div id="feeArea"></div>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="submit-btn">Submit Registration</button>
+
+      <div class="login-link">
+        Already registered? <a href="login.html">Login here</a>
+      </div>
+
+    </form>
+  </div>
+
+  <script>
+    // ===== CLASS CHANGE: Show subjects =====
+    document.getElementById("classSelect").addEventListener("change", function () {
+      const value = this.value;
+      const subjects = document.getElementById("subjects");
+
+      if (value === "9th" || value === "10th") {
+        subjects.innerHTML = `
+          <div class="subjects-box">
+            <h3>Subjects</h3>
+            <ul>
+              <li>Mathematics</li>
+              <li>Physics</li>
+              <li>Chemistry</li>
+              <li>Biology</li>
+              <li>English</li>
+            </ul>
+            <p>Fee: Rs. 5,000 per month</p>
+          </div>`;
+      } else if (value === "11th" || value === "12th") {
+        subjects.innerHTML = `
+          <div class="subjects-box">
+            <h3>Select Group</h3>
+            <select id="groupSelect" onchange="showGroupSubjects()">
+              <option value="">-- Choose Group --</option>
+              <option>Pre Medical</option>
+              <option>Pre Engineering</option>
+              <option>Computer Science</option>
+            </select>
+            <div id="groupSubjects"></div>
+          </div>`;
+      } else {
+        subjects.innerHTML = "";
+      }
+    });
+
+    // ===== GROUP SUBJECTS =====
+    function showGroupSubjects() {
+      const group = document.getElementById("groupSelect").value;
+      const area = document.getElementById("groupSubjects");
+
+      const subjectMap = {
+        "Pre Medical": ["Chemistry", "Biology", "Physics", "English"],
+        "Pre Engineering": ["Chemistry", "Physics", "Mathematics", "English"],
+        "Computer Science": ["Computer Science", "Mathematics", "Physics", "English"]
+      };
+
+      if (subjectMap[group]) {
+        const list = subjectMap[group].map(s => `<li>${s}</li>`).join("");
+        area.innerHTML = `
+          <ul style="margin-top:12px;">${list}</ul>
+          <p style="margin-top:14px;font-weight:600;color:#0891b2;">Fee: Rs. 15,000 per subject</p>`;
+      }
+    }
+
+    // ===== FEE: 9th/10th =====
+    function showFee9() {
+      document.getElementById("feeArea").innerHTML = `
+        <h3 style="margin-bottom:12px;">Total Fee = Rs. 5,000</h3>
+        <label style="display:block;font-size:13px;font-weight:600;color:#0f2057;margin-bottom:8px;">Upload Payment Proof</label>
+        <input type="file" accept="image/*,.pdf">`;
+    }
+
+    // ===== FEE: 11th/12th =====
+    function showFee11() {
+      document.getElementById("feeArea").innerHTML = `
+        <label style="display:block;font-size:13px;font-weight:600;color:#0f2057;margin-bottom:8px;">Number of Subjects (1–4)</label>
+        <input type="number" id="subCount" placeholder="Enter number of subjects" min="1" max="4">
+        <button type="button" class="btn-fee" onclick="calculateFee()" style="margin-top:8px;">
+          Calculate Fee
+        </button>
+        <div id="total"></div>`;
+    }
+
+    // ===== CALCULATE FEE =====
+    function calculateFee() {
+      const sub = parseInt(document.getElementById("subCount").value);
+      const totalDiv = document.getElementById("total");
+
+      if (!sub || sub < 1 || sub > 4) {
+        totalDiv.innerHTML = `<span style="color:#dc2626;">Please enter a valid number of subjects (1–4).</span>`;
+      } else {
+        const total = sub * 15000;
+        totalDiv.innerHTML = `Total Fee = Rs. ${total.toLocaleString()}`;
+      }
+    }
+
+    // ===== FORM VALIDATION =====
+    document.getElementById("regForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const name     = document.getElementById("name").value.trim();
+      const email    = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const contact  = document.getElementById("contact").value.trim();
+
+      // Clear errors
+      ["nameError", "emailError", "passError", "contactError"].forEach(id => {
+        document.getElementById(id).innerHTML = "";
+      });
+
+      let valid = true;
+
+      if (!name) {
+        document.getElementById("nameError").innerHTML = "Student name is required.";
+        valid = false;
+      }
+
+      const emailPattern = /^[^\s]+@[^\s]+\.[a-z]{2,}$/i;
+      if (!emailPattern.test(email)) {
+        document.getElementById("emailError").innerHTML = "Please enter a valid email address.";
+        valid = false;
+      }
+
+      const passPattern = /^(?=.*[!@#$%^&*]).{6,}$/;
+      if (!passPattern.test(password)) {
+        document.getElementById("passError").innerHTML = "Password must be at least 6 characters and include 1 special character (!@#$%^&*).";
+        valid = false;
+      }
+
+      if (contact.length < 11) {
+        document.getElementById("contactError").innerHTML = "Please enter a valid 11-digit phone number.";
+        valid = false;
+      }
+
+      if (valid) {
+        localStorage.setItem("username", name);
+        localStorage.setItem("password", password);
+        alert("Registration Successful! You can now log in.");
+        window.location.href = "login.html";
+      }
+    });
+  </script>
+
+</body>
+</html>
