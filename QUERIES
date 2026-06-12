@@ -1,0 +1,229 @@
+-- ============================================================
+--  STEP 1: Delete old database & create fresh one
+--  Run this FIRST before anything else
+-- ============================================================
+
+DROP DATABASE IF EXISTS HomeTuitionDB;
+
+CREATE DATABASE HomeTuitionDB CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+USE HomeTuitionDB;
+
+-- ============================================================
+--  STEP 2: Create Users table
+-- ============================================================
+
+USE HomeTuitionDB;
+
+CREATE TABLE Users (
+    UserID   INT          NOT NULL AUTO_INCREMENT,
+    Username VARCHAR(50)  NOT NULL UNIQUE,
+    Password VARCHAR(255) NOT NULL,
+    Role     VARCHAR(20)  NOT NULL,
+    PRIMARY KEY (UserID)
+);
+
+-- ============================================================
+--  STEP 3: Create Students table
+-- ============================================================
+
+USE HomeTuitionDB;
+
+CREATE TABLE Students (
+    StudentID INT          NOT NULL AUTO_INCREMENT,
+    UserID    INT,
+    FullName  VARCHAR(100) NOT NULL,
+    Gender    VARCHAR(10),
+    Class     VARCHAR(20),
+    Email     VARCHAR(100) UNIQUE,
+    Phone     VARCHAR(15),
+    Address   VARCHAR(255),
+    PRIMARY KEY (StudentID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+-- ============================================================
+--  STEP 4: Create Tutors table
+-- ============================================================
+
+USE HomeTuitionDB;
+
+CREATE TABLE Tutors (
+    TutorID         INT          NOT NULL AUTO_INCREMENT,
+    UserID          INT,
+    FullName        VARCHAR(100) NOT NULL,
+    Qualification   VARCHAR(100),
+    ExperienceYears INT,
+    Email           VARCHAR(100) UNIQUE,
+    Phone           VARCHAR(15),
+    Address         VARCHAR(255),
+    PRIMARY KEY (TutorID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+-- ============================================================
+--  STEP 5: Create Admins table
+-- ============================================================
+
+USE HomeTuitionDB;
+
+CREATE TABLE Admins (
+    AdminID INT NOT NULL AUTO_INCREMENT,
+    UserID  INT,
+    PRIMARY KEY (AdminID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+-- ============================================================
+--  STEP 6: Create Subjects table
+-- ============================================================
+
+USE HomeTuitionDB;
+
+CREATE TABLE Subjects (
+    SubjectID   INT         NOT NULL AUTO_INCREMENT,
+    SubjectName VARCHAR(50) NOT NULL,
+    PRIMARY KEY (SubjectID)
+
+-- ============================================================
+--  STEP 7: Create TutorSubjects table
+-- ============================================================
+
+USE HomeTuitionDB;
+
+CREATE TABLE TutorSubjects (
+    TutorID   INT NOT NULL,
+    SubjectID INT NOT NULL,
+    PRIMARY KEY (TutorID, SubjectID),
+    FOREIGN KEY (TutorID)   REFERENCES Tutors(TutorID),
+    FOREIGN KEY (SubjectID) REFERENCES Subjects(SubjectID)
+);
+
+-- ============================================================
+--  STEP 8: Create Registrations table
+-- ============================================================
+
+USE HomeTuitionDB;
+
+CREATE TABLE Registrations (
+    RegistrationID   INT  NOT NULL AUTO_INCREMENT,
+    StudentID        INT,
+    SubjectID        INT,
+    RegistrationDate DATE DEFAULT (CURDATE()),
+    PRIMARY KEY (RegistrationID),
+    FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+    FOREIGN KEY (SubjectID) REFERENCES Subjects(SubjectID)
+);
+);
+
+-- ============================================================
+--  STEP 9: Create TutorAssignments table
+-- ============================================================
+
+USE HomeTuitionDB;
+
+CREATE TABLE TutorAssignments (
+    AssignmentID INT NOT NULL AUTO_INCREMENT,
+    StudentID    INT,
+    TutorID      INT,
+    SubjectID    INT,
+    PRIMARY KEY (AssignmentID),
+    FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+    FOREIGN KEY (TutorID)   REFERENCES Tutors(TutorID),
+    FOREIGN KEY (SubjectID) REFERENCES Subjects(SubjectID)
+);
+-- ============================================================
+--  STEP 10: Create Classes table
+-- ============================================================
+
+USE HomeTuitionDB;
+
+CREATE TABLE Classes (
+    ClassID      INT  NOT NULL AUTO_INCREMENT,
+    AssignmentID INT,
+    ClassDate    DATE,
+    StartTime    TIME,
+    EndTime      TIME,
+    PRIMARY KEY (ClassID),
+    FOREIGN KEY (AssignmentID) REFERENCES TutorAssignments(AssignmentID)
+);
+-- ============================================================
+--  STEP 11: Create Attendance table
+-- ============================================================
+
+USE HomeTuitionDB;
+
+CREATE TABLE Attendance (
+    AttendanceID INT         NOT NULL AUTO_INCREMENT,
+    ClassID      INT,
+    Status       VARCHAR(20),
+    PRIMARY KEY (AttendanceID),
+    FOREIGN KEY (ClassID) REFERENCES Classes(ClassID)
+);
+-- ============================================================
+--  STEP 12: Create Payments table
+-- ============================================================
+
+USE HomeTuitionDB;
+
+CREATE TABLE Payments (
+    PaymentID     INT           NOT NULL AUTO_INCREMENT,
+    StudentID     INT,
+    Amount        DECIMAL(10,2),
+    PaymentDate   DATE,
+    PaymentStatus VARCHAR(20),
+    PRIMARY KEY (PaymentID),
+    FOREIGN KEY (StudentID) REFERENCES Students(StudentID)
+);
+-- ============================================================
+--  STEP 13: Create Feedback table
+-- ============================================================
+
+USE HomeTuitionDB;
+
+CREATE TABLE Feedback (
+    FeedbackID INT          NOT NULL AUTO_INCREMENT,
+    StudentID  INT,
+    TutorID    INT,
+    Rating     INT,
+    Comments   VARCHAR(255),
+    PRIMARY KEY (FeedbackID),
+    FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+    FOREIGN KEY (TutorID)   REFERENCES Tutors(TutorID)
+);
+
+-- ============================================================
+--  STEP 14: Insert Subjects data
+-- ============================================================
+
+USE HomeTuitionDB;
+
+INSERT INTO Subjects (SubjectName) VALUES
+('Mathematics'),
+('Physics'),
+('Chemistry'),
+('Computer Science'),
+('English'),
+('Biology');
+
+-- ============================================================
+--  STEP 15: Insert sample User (Student login)
+-- ============================================================
+
+USE HomeTuitionDB;
+
+INSERT INTO Users (Username, Password, Role)
+VALUES ('saad123', '12345', 'Student');
+
+
+-- ============================================================
+--  STEP 16: Insert Student record
+--  (UserID = 1 because saad123 was inserted first)
+-- ============================================================
+
+USE HomeTuitionDB;
+
+INSERT INTO Students (UserID, FullName, Gender, Class, Email, Phone, Address)
+VALUES (1, 'Saad Khan', 'Male', '12th', 'saad@gmail.com', '03001234567', 'Rawalpindi');
+
+
+
